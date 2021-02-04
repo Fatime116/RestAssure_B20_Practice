@@ -120,5 +120,8 @@ public class practice extends HR_ORDS_TestBase {
         //should specify what it means : it.department_id
         List<String> depNameFiltered = jp.getList("items.findAll{it.department_id>70 & it.manager_id>114}.department_name");
         System.out.println("depIdFiltered = " + depNameFiltered);//depNameFiltered = [Sales, Accounting]
+
+        //get deppartment 10
+        List<String > dept10 = jp.getList("items.department_id.findAll{it==10}");
     }
 }

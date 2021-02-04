@@ -79,5 +79,35 @@ public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
         List<String> depNameFiltered = jp.getList("items.findAll{it.department_id>70 & it.manager_id>114}.department_name");
         System.out.println("depIdFiltered = " + depNameFiltered);//depNameFiltered = [Sales, Accounting]
 
+        //get deppartment 10, we get single object
+      String dept10 = jp.getString("items.find{it.department_id==10}.department_name");
+        System.out.println("dept10 = " + dept10);
+
+        //give me the department name if manager is is 114
+        String dept_114 = jp.getString("items.find{it.manager_id==114}.department_name");
+        System.out.println("dept_114 = " + dept_114);//Purchasing
+
+      //sum of whole department id
+        int sumOfAllDepIDs = jp.getInt("items.department_id.sum()");
+
+
+        System.out.println("sumOfAllDepIDs = " + sumOfAllDepIDs);//3017
+
+        int minOfDepIDs = jp.getInt("items.department_id.min()");
+        System.out.println("sumOfMaxDepIDs = " +minOfDepIDs);//10
+
+        int maxOfDepIDs = jp.getInt("items.department_id.max()");
+        System.out.println("maxOfDepIDs = " + maxOfDepIDs);//240
+
+        System.out.println("jp.getInt(\"items.department_id[4]\") = " + jp.getInt("items.department_id[4]"));//40
+
+        System.out.println("last department id " + jp.getInt("items.department_id[-1]"));//240
+
+        System.out.println("department_id 70-90" + jp.getList("items.department_id.findAll{it>=70 && it<=100}"));
+
+
+
+        //print from index 7 till index 10 dep_id
+        System.out.println("jp.getInt(\"items.department_id[7..10]\") = " + jp.getList("items.department_id[7..10]"));//[70, 80, 90, 100]
     }
 }
