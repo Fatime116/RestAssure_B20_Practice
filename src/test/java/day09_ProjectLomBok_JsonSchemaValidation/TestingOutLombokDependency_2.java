@@ -42,13 +42,14 @@ public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
         allDepsCopy.removeIf( eachDep -> eachDep.getManager_id()==0 ) ;
         allDepsCopy.forEach(System.out::println);
     }
+
     @DisplayName("GET /departments and filter the result with JsonPath groovy")
     @Test
     public void testFilterResultWithGroovy() {
 
         JsonPath jp = get("/departments").jsonPath();
         //instead of using predicate to remove, we use groovy
-        List<Department> allDeps = jp.getList("items.findAll {it.manager_id > 0}",Department.class);
+        List<Department> allDeps = jp.getList("items.findAll {it.manager_id > 0}",Department.class);//all fields as Department class
         allDeps.forEach(System.out::println);
 
         // what if I just wanted to get List<String> to store DepartmentName
@@ -57,11 +58,26 @@ public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
 
         // -->> items.department_name (all)
         // -->> items.findAll {it.manager_id>0 }.department_name (filtered for manager_id more than 0)
+        //first filter manager_id >0 , then filter out all department_id
+        //we dont need to removeIf method
         List<String > depNamesFiltered = jp.getList("items.findAll{it.manager_id >0}.department_name");
         System.out.println("depNamesFiltered = " + depNamesFiltered);
 
         // Get all departments ID if its more than 70
-        List<Integer>  allDepsIDs = jp.getList("items.findAll{it.department_id>70}.department_id");
-        System.out.println("allDepsIDs = " + allDepsIDs);
+        //it represents department_id
+       // List<Integer>  allDepsIDs = jp.getList("items.findAll{it.department_id>70}.department_id");//same
+        List<Integer>  allDepsIDs1 = jp.getList("items.department_id.findAll{it>70}");
+        System.out.println("allDepsIDs1 = " + allDepsIDs1);
+     //   System.out.println("allDepsIDs = " + allDepsIDs);
+
+
+        List<Integer> filteredDeptID70To100 = jp.getList("items.department_id.findAll{it>=70 && it<=100}");
+       // List<Integer> filteredDeptID70To100 =jp.getList("items.findAll{it.department_id >=70 &&it.department_id<=100 }.department_id");//same result
+                System.out.println("filteredDeptID70To100 = " + filteredDeptID70To100);
+
+       //at the end will return filtered department_name
+        List<String> depNameFiltered = jp.getList("items.findAll{it.department_id>70 & it.manager_id>114}.department_name");
+        System.out.println("depIdFiltered = " + depNameFiltered);//depNameFiltered = [Sales, Accounting]
+
     }
 }

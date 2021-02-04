@@ -4,10 +4,12 @@ import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pojo.Country;
+import pojo.Department;
 import sun.jvm.hotspot.utilities.Assert;
 import testbase.HR_ORDS_TestBase;
 import utility.DB_Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,9 +72,53 @@ public class practice extends HR_ORDS_TestBase {
         expectedListFromDB.forEach(System.out::println);
 
         assertThat(all_IDs,equalTo(expectedListFromDB));
+    }
+
+    @DisplayName("GET /departments and save List of POJO")
+    @Test
+    public void testDepartmentJsonArrayToListOfPojo(){
+
+        List<Department> allDepartment =given()
+              .log().all()
+              .when()
+              .get("/departments")
+              .jsonPath()
+              .getList("items",Department.class);//we cannot use As here, we cannot directly go
+
+        allDepartment.forEach(System.out::println);
+        System.out.println("=================================================================");
+        List<Department>allDepartmentCopy = new ArrayList<>(allDepartment);
+        allDepartmentCopy.removeIf(each->each.getManager_id()==0);//remove if it is 0
+        allDepartmentCopy.forEach(System.out::println);
+    }
+
+    @DisplayName("GET /departments and filter the result with JsonPath groovy")
+    @Test
+    public void testFilterResultWithGroovy() {
+
+        JsonPath jp = get("/departments")
+                .jsonPath();
+
+        List<Department> allDeps=jp.getList("items.findAll{it.manager_id >0}",Department.class);//first actual jsonpath, and groovy method
+        //find the object that has manager id not equal to 0
+        //it is each and every item
+        //save it as List of Department POJO class
+        allDeps.forEach(System.out::println);
 
 
+        List<Department> allDeps114=jp.getList("items.findAll{it.manager_id == 114}",Department.class);
 
+        List<String> depNames = jp.getList("items.department_name");
+        System.out.println("depNames = " + depNames);
 
+        //first filter manager_id >0 , then all department_name
+        List<String> depNamesFiltered = jp.getList("items.findAll{it.manager_id>0}.department_name");
+        System.out.println("depNamesFiltered = " + depNamesFiltered);
+
+        //if i write items.department_name, i will not have access to the other parts of json object
+        //findAll should start in between,
+        //should specify what it means : it.department_id
+        List<String> depNameFiltered = jp.getList("items.findAll{it.department_id>70 & it.manager_id>114}.department_name");
+        System.out.println("depIdFiltered = " + depNameFiltered);//depNameFiltered = [Sales, Accounting]
     }
 }
