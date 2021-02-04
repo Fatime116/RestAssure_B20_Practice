@@ -1,6 +1,7 @@
 package day09_ProjectLomBok_JsonSchemaValidation;
 import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,7 +28,17 @@ public class JUnit5_ParameterizedTest {
       //  assertTrue(myNum<10);//even if one line is not passed, it will not abort my other tests
 
     }
+
+    @ParameterizedTest
+    @CsvFileSource(resources ="/zipcode.csv",numLinesToSkip = 1)//we want to skip first line
+    // add slash / in front of zipcode path
+    public void  test2(String zip){
+
+        System.out.println("zip = " + zip);
+
+    }
     //using CSV file as source for parameterized test
     //it goes straightly to the csv file, and read the data
+    //very first line is header
 
 }
