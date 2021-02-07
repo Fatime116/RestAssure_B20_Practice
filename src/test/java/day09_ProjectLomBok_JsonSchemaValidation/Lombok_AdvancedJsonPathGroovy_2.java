@@ -12,7 +12,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import pojo.Department;
 
-public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
+public class Lombok_AdvancedJsonPathGroovy_2 extends HR_ORDS_TestBase {
 //Lombok is  java library,that automatically plugs into your editor and build tools, spicing up your java.
 //Never write another getter or equals method again, with one annotation your class has a fully featured builder,
 // Automate your logging variables, and much more.
@@ -38,6 +38,7 @@ public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
         // AND ONLY PRINT IF THE DEP MANAGER ID IS NOT NULL
 
         List<Department> allDepsCopy = new ArrayList<>(allDeps);
+        System.out.println("allDepsCopy = " + allDepsCopy);
 
         allDepsCopy.removeIf( eachDep -> eachDep.getManager_id()==0 ) ;
         allDepsCopy.forEach(System.out::println);
@@ -105,9 +106,17 @@ public class TestingOutLombokDependency_2 extends HR_ORDS_TestBase {
 
         System.out.println("department_id 70-90" + jp.getList("items.department_id.findAll{it>=70 && it<=100}"));
 
-
-
         //print from index 7 till index 10 dep_id
         System.out.println("jp.getInt(\"items.department_id[7..10]\") = " + jp.getList("items.department_id[7..10]"));//[70, 80, 90, 100]
+
+       List<String> toUpperCaseDepName =  jp.getList("items.department_name.collect{it.toUpperCase() }");
+
+        toUpperCaseDepName.forEach(System.out::println);
+
+
+        List < String> idDepNames = jp.getList("items.collect{ 'Deps' + it.department_id + ', ' + it.department_name} ");
+
+        idDepNames.forEach(System.out::println);
+
     }
 }

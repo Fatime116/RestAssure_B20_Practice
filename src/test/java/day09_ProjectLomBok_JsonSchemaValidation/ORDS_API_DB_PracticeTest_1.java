@@ -27,7 +27,7 @@ public class ORDS_API_DB_PracticeTest_1 extends HR_ORDS_TestBase{
                 .get("/countries/{country_id}").prettyPeek()
                 .as(Country.class) ;//dont need call it through json path
         //we dont need anything json path , so it is better to use as method to get pojo
-
+    //arPOJO : single object of country pojo class
 
         // here the shorter way of above code, without calling specific path parameter
        //  Country arPOJO1 =  get("/countries/{country_id}" , myCountryID ) .as(Country.class) ;
@@ -63,15 +63,27 @@ public class ORDS_API_DB_PracticeTest_1 extends HR_ORDS_TestBase{
                 then()
                 .extract()
                 .jsonPath();
-        List<String> allCountryID = jp.getList("items.country_id");//all countries ID
-       allCountryID.forEach(System.out::println);
 
-        DB_Utility.runQuery("SELECT * FROM COUNTRIES");
-        List<String> expectedListFromDB = DB_Utility.getColumnDataAsList("COUNTRY_ID");
-//        expectedListFromDB.forEach(System.out::println);
+        List<Country> allCountries = jp.getList("items", Country.class);
+        Country country = allCountries.get(0);
+        String first_country_id_1 = country.getCountry_id();
+        System.out.println("country_id = " + first_country_id_1);
+
+        //or we can do this way:
+        String firstCountry_ID = jp.getString("items.country_id[0]");
+        System.out.println("firstCountry_ID = " + firstCountry_ID);
+
+        //all countries id  from json path
+         List<String> allCountryID = jp.getList("items.country_id");//all countries ID
+          allCountryID.forEach(System.out::println);
+
+       DB_Utility.runQuery("SELECT * FROM COUNTRIES");
+      List<String> expectedListFromDB = DB_Utility.getColumnDataAsList("COUNTRY_ID");//all countries id from DB utility
+     expectedListFromDB.forEach(System.out::println);
 
         // assert both list has same information
-        assertThat(allCountryID, equalTo(expectedListFromDB)  );
+       assertThat(allCountryID, equalTo(expectedListFromDB)  );
+        //          List                  List
 
     }
 

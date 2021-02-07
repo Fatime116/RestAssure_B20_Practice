@@ -30,13 +30,14 @@ public class PostWithCustomObject_1 {
     public void testAddDataWithPojo() {
 
         //Spartan sp1 = new Spartan("B20 user","Male",1234567890L) ;
-        Spartan sp1 = SpartanUtil.getRandomSpartanPOJO_Payload();
+        Spartan spartan = SpartanUtil.getRandomSpartanPOJO_Payload();
 
         given()
                 .auth().basic("admin","admin")
                 .log().all()
-                .contentType(ContentType.JSON)
-                .body(sp1).//serialization------java object to json object
+                 .contentType(ContentType.JSON).   /// telling the api what kind of data format i am sending
+                accept(ContentType.JSON)       /// telling the api what kind of data format i want in return
+                .body(spartan).//serialization------java object to json object
                 //provide java object in the body and let jackson data bind to take care of it
         when()
                 .post("/spartans").
@@ -46,9 +47,9 @@ public class PostWithCustomObject_1 {
                 .statusCode(is(201))
                 .contentType(ContentType.JSON)
                 .body("success",is("A Spartan is Born!"))
-                .body("data.name",is(sp1.getName()))
-                .body("data.gender",is(sp1.getGender()))
-                .body("data.phone",is(sp1.getPhone()));
+                .body("data.name",is(spartan.getName()))
+                .body("data.gender",is(spartan.getGender()))
+                .body("data.phone",is(spartan.getPhone()));
 
     }
     @DisplayName("Add 1 Data with POJO as body")
@@ -80,6 +81,36 @@ public class PostWithCustomObject_1 {
         // Save Response Json As POJO
         System.out.println("getOnePOJOObject = " + getOnePOJOObject);
 
-    }
+
 
     }
+
+    public static void main(String[] args) {
+
+        String str ="apple";
+        String unique ="";//ale  = a 0  p 1
+
+        for (int i = 0; i < str.length(); i++) {//a
+          int count = 0 ;
+            for (int j = 0; j < str.length(); j++) {//apple
+                if (str.charAt(i) ==str.charAt(j)){
+                    count++;
+                }
+            }
+            if(count==1){
+                unique +="" + str.charAt(i);//a
+              // unique=  unique  +  unique.indexOf(unique.charAt(i)) + " ";
+            }
+        }
+
+        //unique ="ale"
+        for (int i = 0; i < unique.length(); i++) {
+
+            unique += unique.charAt(i) + ":" + unique.indexOf(i) ;
+
+        }
+        System.out.println(unique);//ale
+
+    }
+
+}

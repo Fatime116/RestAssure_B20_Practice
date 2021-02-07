@@ -6,7 +6,7 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-public class JUnit5RepeatedTest {
+public class JUnit5RepeatedTest_3 {
 
     @DisplayName("Repeated Test Demo")
     @RepeatedTest(10)
