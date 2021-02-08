@@ -38,7 +38,8 @@ public class Spartan_E2E_HappyPath_5 {
          newID = given()
                 .auth().basic("admin", "admin")
                 .log().all()
-                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)//what kind of data content type we want to accept(expect) as a response
+                .contentType(ContentType.JSON)//what content type we are sending in the request
                 .body(payloadMap).//to make it class level so that our every test can access
                 when()
                 .post("/spartans").
@@ -88,7 +89,7 @@ public class Spartan_E2E_HappyPath_5 {
         given()
                 .auth().basic("admin","admin")
                 .pathParam("id" , newID)
-                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
                 .body(payloadMap) // updated payload
                 .log().all().
         when()

@@ -10,7 +10,7 @@ import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
-public class NewsAPIHomework {
+public class NewsAPIHomework_1 {
 
     @DisplayName("Get All Articles author if source id is not null ")
     @Test
