@@ -20,7 +20,17 @@ import java.io.File;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 public class JsonSchemaValidationPractice_1 extends SpartanAdmin_TestBase {
-
+    /*
+       we test status code, body, header, response time, the structure of our json against given json schema file which is provided by developer
+       if we have very large response payload, and we care about only few fields, in order to verify rest of them, without really checking the actual value
+       we just check the structure of the json(json response) against given json schema
+     //json schema: the requirement for how the json object look like, the structure of the json
+       1.added json-schema-validator dependencies
+       2.added the schema file
+       3.wrote the line in body , provide the path of json schema
+       i have the schema file i have to validate that i got from my developer, and i used that to automate the validation of the schema
+       , the structure of my json,
+     */
     @DisplayName("Testing the structure of GET /api/spartans/{id}  response")
     @Test
     public void testSingleSpartanSchema(){
@@ -49,19 +59,7 @@ public class JsonSchemaValidationPractice_1 extends SpartanAdmin_TestBase {
 
     }
 
-    @DisplayName("Testing GET /spartans/search endpoint structure ")
-    @Test
-    public void testSearchSpartanResponseSchema() {
-        given()
-                .spec(adminReqSpec)
-                .queryParam("gender","Male")
-                .queryParam("nameContains","aa")
-                .when()
-                .get("/spartans/search")
-                .then()
-                .spec(adminResSpec)
-                .body(matchesJsonSchemaInClasspath("searchSpartanSchema.json"));
-    }
+
 
     @DisplayName("Testing POST /spartans endpoint structure ")
     @Test
@@ -88,5 +86,20 @@ public class JsonSchemaValidationPractice_1 extends SpartanAdmin_TestBase {
                 .body(matchesJsonSchema( schemaFile ))
         ;
 
+    }
+//how does the data base rule for table enforced? constraints
+
+    @DisplayName("Testing GET /spartans/search endpoint structure ")
+    @Test
+    public void testSearchSpartanResponseSchema() {
+        given()
+                .spec(adminReqSpec)
+                .queryParam("gender","Male")
+                .queryParam("nameContains","aa")
+                .when()
+                .get("/spartans/search")
+                .then()
+                .spec(adminResSpec)
+                .body(matchesJsonSchemaInClasspath("searchSpartanSchema.json"));
     }
 }

@@ -9,7 +9,7 @@ import testbase.SpartanAdmin_TestBase;
 public class JsonSchemaValidation extends SpartanAdmin_TestBase {
 
 /*
-   we test status code, body, header, response time, the structure of our json against given json schema
+   we test status code, body, header, response time, the structure of our json against given json schema file
    if we have very large response payload, and we care about only few fields, in order to verify rest of them, without really checking the actual value
    we just check the structure of the json(json response) against given json schema
  //json schema: the requirement for how the json object look like, the structure of the json
