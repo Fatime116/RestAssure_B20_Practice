@@ -9,11 +9,14 @@ import pojo.Spartan;
 import utility.ConfigurationReader;
 
 import static io.restassured.RestAssured.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
 import static org.hamcrest.Matchers.is;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import testbase.SpartanAdmin_TestBase;
 import utility.SpartanUtil;
+
+import java.io.File;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 public class JsonSchemaValidationPractice_1 extends SpartanAdmin_TestBase {
@@ -64,21 +67,26 @@ public class JsonSchemaValidationPractice_1 extends SpartanAdmin_TestBase {
     @Test
     public void testPostSpartanResponseSchema() {
 
+        // We can also use matchesJsonSchema method if we want to provide full path for this file
+
+        File schemaFile = new File("src/test/resources/postSuccessResponseSchema.json");
         Spartan spartanPOJO_payload = SpartanUtil.getRandomSpartanPOJO_Payload();
 
         given()
-                .log().all()
-                .auth().basic("admin","admin")
+                .spec(adminReqSpec)
                 .contentType(ContentType.JSON)
                 .body(spartanPOJO_payload)
-                .when()
-                .post("spartans")
-                .then()
+        .when()
+                .post("/spartans")
+        .then()
                 .log().all()
+                .statusCode(is(201))
                  .body("data.name",is(spartanPOJO_payload.getName()))
+       // .body(matchesJsonSchemaInClasspath("postSuccessResponseSchema.json"))
+        // what if my schema file is somewhere else other than resource folder ?
+        // then you need to provide full path and use different method
+                .body(matchesJsonSchema( schemaFile ))
         ;
-
-
 
     }
 }
