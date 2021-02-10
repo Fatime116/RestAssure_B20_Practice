@@ -1,4 +1,4 @@
-package day09_ProjectLomBok_JsonSchemaValidation;
+package day09_ProjectLomBok_Groovy;
 import static org.hamcrest.Matchers.*;
 
 import io.restassured.http.ContentType;
@@ -7,19 +7,12 @@ import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import io.restassured.path.json.JsonPath;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import pojo.Region;
-import testbase.HR_ORDS_TestBase;
-import utility.DB_Utility;
-import io.restassured.response.Response;
 
-import java.util.Map;
+import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+
 public class JUnit5_ParameterizedTest_4 {
 
    // Parameterized Test makes it possible to run a test multiple times with different arguments

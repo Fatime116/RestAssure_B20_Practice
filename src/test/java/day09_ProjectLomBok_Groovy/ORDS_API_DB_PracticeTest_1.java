@@ -1,4 +1,4 @@
-package day09_ProjectLomBok_JsonSchemaValidation;
+package day09_ProjectLomBok_Groovy;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

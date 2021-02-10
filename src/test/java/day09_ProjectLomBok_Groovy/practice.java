@@ -1,11 +1,10 @@
-package day09_ProjectLomBok_JsonSchemaValidation;
+package day09_ProjectLomBok_Groovy;
 
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pojo.Country;
 import pojo.Department;
-import sun.jvm.hotspot.utilities.Assert;
 import testbase.HR_ORDS_TestBase;
 import utility.DB_Utility;
 

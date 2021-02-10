@@ -16,19 +16,26 @@ public class NewsAPIHomework_1 {
     @Test
     public void testGetAllArticles(){
 
+        //how do you authorize your request:
+        //in one of the internal application, we had a basic auth, so we provide user name and password into the app
+        //in my another application, we had the API key that we need to provide into app either in query parameter or in the header
+        //in most of my application, we use the Bearer token into the authorization header
+        //we provide header called authorization, provide token with Bearer with space
+
         //https://newsapi.org/v2/top-headlines?country=us&apiKey=API_KEY
         JsonPath jp =
                 given()
                         .log().uri()
                         .baseUri("http://newsapi.org")
                         .basePath("/v2")
-                        //.header("Authorization","Bearer 03e75cdc200c4f27a77f9b1473bbde8d")
-                        .queryParam("apiKey","d39d53da33db434791d77f7b58658007")
+                        //authorization header, write Authorization and "Bearer space actual header" provide my token with Bearer with space  to provide token
+                        .header("Authorization","Bearer 03e75cdc200c4f27a77f9b1473bbde8d")
+                      //  .queryParam("apiKey","d39d53da33db434791d77f7b58658007")
                         .queryParam("country","us").
                         when()
                         .get("/top-headlines").prettyPeek()
                         .jsonPath();
-       //all AUthor with no filter
+       //all Author with no filter
         List<String> allAuthorWithNoFilter = jp.getList("articles.author");
         System.out.println("allAuthorWithNoFilter = " + allAuthorWithNoFilter);
         System.out.println("allAuthorWithNoFilter.size() = " + allAuthorWithNoFilter.size());

@@ -1,10 +1,8 @@
-package day09_ProjectLomBok_JsonSchemaValidation;
-import static org.hamcrest.Matchers.*;
+package day09_ProjectLomBok_Groovy;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
-import static io.restassured.RestAssured.*;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 public class JUnit5RepeatedTest_3 {
 
