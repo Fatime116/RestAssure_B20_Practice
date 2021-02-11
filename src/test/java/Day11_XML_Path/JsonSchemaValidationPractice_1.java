@@ -1,12 +1,6 @@
-package Day11;
-import io.restassured.filter.log.LogDetail;
+package Day11_XML_Path;
 import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import pojo.Spartan;
-import utility.ConfigurationReader;
 
 import static io.restassured.RestAssured.*;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchema;
